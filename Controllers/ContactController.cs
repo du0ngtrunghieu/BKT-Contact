@@ -103,6 +103,27 @@ namespace Contacts_KT.Controllers
             List<String> t = GetContactBySearch(originalText,path).Select(x => x.firstWordName).Distinct().ToList();
             return t;
         }
+        public static List<ContactModel> GetContactbyWord(string text, string pathDataFile)
+        {
+            List<ContactModel> newListContact = new List<ContactModel>();
+            if (!text.Equals(""))
+            {
+                List<ContactModel> listContact = GetContacts(pathDataFile);
+
+                foreach (var item in listContact)
+                {
+                    if (String.Compare(item.firstWordName, text) >= 0)
+                    {
+                        newListContact.Add(item);
+                    }
+                }
+                return newListContact;
+            }
+            else
+            {
+                return GetContacts(pathDataFile);
+            }
+        }
 
     }
 }

@@ -148,7 +148,7 @@ namespace Contacts_KT.Views
             {
                 Label lbl = new Label();
                 lbl.Text = t[i];
-
+                lbl.Click += new System.EventHandler(this.Label_Click);
                 flowLayoutPanel1.Controls.Add(lbl);
             }
         }
@@ -160,9 +160,20 @@ namespace Contacts_KT.Views
             {
                 Label lbl = new Label();
                 lbl.Text = t[i];
-               
+                lbl.Click += new System.EventHandler(this.Label_Click);
                 flowLayoutPanel1.Controls.Add(lbl);
             }
+        }
+        private void Label_Click(object sender, EventArgs e)
+        {
+            var labelName = ((Label)sender).Text;
+            var listContactNoSort = ContactController.GetContactbyWord(labelName, path);
+            var newContactList = listContactNoSort.OrderBy(x => x.firstWordName).ToList();
+            if (newContactList != null)
+            {
+                dsContact.DataSource = newContactList;
+            }
+            tbContact.DataSource = dsContact;
         }
     }
 }
