@@ -11,7 +11,108 @@ namespace Contacts_KT.Controllers
 {
     class ContactController
     {
-      
+
+        public static List<ContactModel> GetContactsDb(int idUser)
+        {
+            var db = new ContactsContext();
+            return db.ContactDbset.Where(x => x.IdUser == idUser).OrderBy(i => i.FullName).ToList();
+        }
+        public static List<ContactModel> addContactDb(ContactModel contact , int idUser)
+        {
+            var db = new ContactsContext();
+            db.ContactDbset.Add(contact);
+            db.SaveChanges();
+            return GetContactsDb(idUser);
+        }
+        public static void deleteContactDb(ContactModel contact)
+        {
+            var db = new ContactsContext();
+            ContactModel ct = db.ContactDbset.Where(x => x.IdContact == contact.IdContact).Select(x => x).FirstOrDefault();
+            db.ContactDbset.Remove(ct);
+            db.SaveChanges();
+            
+        }
+        public static void updateContactDb(ContactModel contact)
+        {
+            var db = new ContactsContext();
+            ContactModel ct = db.ContactDbset.Where(x => x.IdContact == contact.IdContact).Select(x => x).FirstOrDefault();
+            ct.FullName = contact.FullName;
+            ct.Email = contact.Email;
+            ct.Phone = contact.Phone;
+            db.SaveChanges();
+        }
+        public static List<ContactModel> GetContactBySearchDb(string originalText, int idUser)
+        {
+            string text = originalText.ToLower();
+            List<ContactModel> newListContact = new List<ContactModel>();
+            if (!text.Equals(""))
+            {
+                List<ContactModel> listContact = GetContactsDb(idUser);
+
+
+                foreach (var item in listContact)
+                {
+
+
+                    if (item.FullName.ToLower().Contains(text) || item.Email.Contains(text))
+                    {
+                        newListContact.Add(item);
+                    }
+                }
+                return newListContact;
+
+
+            }
+            else
+            {
+                return GetContactsDb(idUser);
+            }
+
+        }
+        public static List<ContactModel> GetContactbyWordDb(string text, int idUser)
+        {
+            List<ContactModel> newListContact = new List<ContactModel>();
+            if (!text.Equals(""))
+            {
+                List<ContactModel> listContact = GetContactsDb(idUser);
+
+                foreach (var item in listContact)
+                {
+                    if (String.Compare(item.firstWordName, text) >= 0)
+                    {
+                        newListContact.Add(item);
+                    }
+                }
+                return newListContact;
+            }
+            else
+            {
+                return GetContactsDb(idUser);
+            }
+        }
+        public static void CheckImp(ContactModel contact)
+        {
+            var db = new ContactsContext();
+            ContactModel ct = db.ContactDbset.Where(x => x.FullName == contact.FullName).Select(x => x).FirstOrDefault();
+            if (ct != null)
+            {
+                if (ct.Phone != contact.Phone || ct.Email != contact.Email)
+                {
+                    contact.IdContact = ct.IdContact;
+                    updateContactDb(contact);
+                    
+                }
+                
+            }
+            else
+            {
+                db.ContactDbset.Add(contact);
+                db.SaveChanges();
+            }
+           
+
+
+        }
         public static List<ContactModel> GetContacts(String path)
         {
 
@@ -93,14 +194,15 @@ namespace Contacts_KT.Controllers
             }
 
         }
-        public static List<String> removeDuplicates(String path)
+        public static List<String> removeDuplicates(int idUser)
         {
-            List<String> t = GetContacts(path).Select(x =>x.firstWordName).Distinct().ToList();
+            
+            List<String> t = GetContactsDb(idUser).Select(x =>x.firstWordName).Distinct().ToList();
             return t;
         }
-        public static List<String> removeDuplicatesSearch(string originalText,String path)
+        public static List<String> removeDuplicatesSearch(string originalText,String path,int idUser)
         {
-            List<String> t = GetContactBySearch(originalText,path).Select(x => x.firstWordName).Distinct().ToList();
+            List<String> t = GetContactBySearchDb(originalText, idUser).Select(x => x.firstWordName).Distinct().ToList();
             return t;
         }
         public static List<ContactModel> GetContactbyWord(string text, string pathDataFile)

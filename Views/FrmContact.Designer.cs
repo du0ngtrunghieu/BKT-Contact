@@ -38,12 +38,14 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dsContact = new System.Windows.Forms.BindingSource(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tbContact)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsContact)).BeginInit();
             this.SuspendLayout();
@@ -70,10 +72,12 @@
             // 
             // txtsearch
             // 
+            this.txtsearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtsearch.Location = new System.Drawing.Point(85, 51);
             this.txtsearch.Name = "txtsearch";
-            this.txtsearch.Size = new System.Drawing.Size(443, 20);
+            this.txtsearch.Size = new System.Drawing.Size(443, 29);
             this.txtsearch.TabIndex = 2;
+            this.txtsearch.Tag = "";
             this.txtsearch.TextChanged += new System.EventHandler(this.Txtsearch_TextChanged);
             this.txtsearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox1_KeyPress);
             // 
@@ -87,7 +91,8 @@
             this.Column2,
             this.Column3,
             this.Column4,
-            this.id});
+            this.id,
+            this.Column5});
             this.tbContact.DataSource = this.dsContact;
             this.tbContact.Location = new System.Drawing.Point(15, 153);
             this.tbContact.Name = "tbContact";
@@ -132,6 +137,14 @@
             this.id.Name = "id";
             this.id.ReadOnly = true;
             this.id.Visible = false;
+            // 
+            // Column5
+            // 
+            this.Column5.DataPropertyName = "IdUser";
+            this.Column5.HeaderText = "Column5";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Visible = false;
             // 
             // button1
             // 
@@ -183,16 +196,27 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(544, 195);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(544, 105);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(43, 272);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(43, 362);
             this.flowLayoutPanel1.TabIndex = 10;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(352, 475);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 11;
+            this.button5.Text = "Import";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.Button5_Click);
             // 
             // FrmContact
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(599, 510);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -203,6 +227,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "FrmContact";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Danh Bạ";
             ((System.ComponentModel.ISupportInitialize)(this.tbContact)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsContact)).EndInit();
@@ -222,11 +247,13 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.BindingSource dsContact;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
     }
 }

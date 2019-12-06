@@ -38,9 +38,9 @@ namespace Contacts_KT.Views
                 contact.Email = email;
                 contact.IdContact = int.Parse(frmContact1.idContact);
 
-                ContactController.updateContact(contact, frmContact1.path);
+                ContactController.updateContactDb(contact);
                 MessageBox.Show("Sửa thành công: " + contact.FullName);
-                frmContact1.Update_tableContact(frmContact1.path);
+                frmContact1.Update_tableContact();
             }
             this.Close();
         }

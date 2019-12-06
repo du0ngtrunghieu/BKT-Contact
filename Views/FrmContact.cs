@@ -16,25 +16,29 @@ namespace Contacts_KT.Views
 {
     public partial class FrmContact : Form
     {
+        private readonly FrmLogin _frmLogin;
         public String path;
         public string value1;
         public string fullname;
         public string phone;
         public string email;
         public string idContact;
-
-        public FrmContact()
+        public int idUser;
+        public FrmContact(FrmLogin frmLogin)
         {
-            path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + "//Data//ContactData.txt";
-            
+            //path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + "//Data//ContactData.txt";
+           
             InitializeComponent();
-            Update_tableContact(path);
-            
+            _frmLogin = frmLogin;
+            Update_tableContact();
+           
         }
-        public void Update_tableContact(String path)
+        
+        public void Update_tableContact()
         {
             
-            List<ContactModel> contacts = ContactController.GetContacts(path);
+            //List<ContactModel> contacts = ContactController.GetContacts(path);
+            List<ContactModel> contacts = ContactController.GetContactsDb(_frmLogin.Iduser);
             dsContact.DataSource = null;
 
             ClearGrid();
@@ -60,6 +64,7 @@ namespace Contacts_KT.Views
 
         private void Button3_Click(object sender, EventArgs e)
         {
+            idUser = _frmLogin.Iduser;
             FrmAddContact t = new FrmAddContact(this);
             t.Show();
             
@@ -92,13 +97,14 @@ namespace Contacts_KT.Views
                     string phone = row.Cells[2].Value.ToString();
                     string email = row.Cells[3].Value.ToString();
                     string id = row.Cells[4].Value.ToString();
+                    string idusn = row.Cells[5].Value.ToString();
                     ctselect.FullName = fullname;
                     ctselect.Phone = int.Parse(phone);
                     ctselect.Email = email;
                     ctselect.IdContact = int.Parse(id);
-
-                    ContactController.deleteContact(ctselect, path);
-                    Update_tableContact(path);
+                    ctselect.IdUser = int.Parse(idusn);
+                    ContactController.deleteContactDb(ctselect);
+                    Update_tableContact();
 
 
                 }
@@ -122,7 +128,7 @@ namespace Contacts_KT.Views
                phone = row.Cells[2].Value.ToString();
                email = row.Cells[3].Value.ToString();
                idContact = row.Cells[4].Value.ToString();
-              
+               idUser = _frmLogin.Iduser;
             }
             FrmEdit frmEdit = new FrmEdit(this);
             frmEdit.Show();
@@ -135,7 +141,7 @@ namespace Contacts_KT.Views
 
         private void Txtsearch_TextChanged(object sender, EventArgs e)
         {
-            var contacts = ContactController.GetContactBySearch(txtsearch.Text, path);
+            var contacts = ContactController.GetContactBySearchDb(txtsearch.Text, _frmLogin.Iduser);
             if (contacts != null)
             {
                 dsContact.DataSource = contacts;
@@ -143,7 +149,7 @@ namespace Contacts_KT.Views
             tbContact.DataSource = dsContact;
             // update lại bảng chữ
             flowLayoutPanel1.Controls.Clear();
-            List<String> t = ContactController.removeDuplicatesSearch(txtsearch.Text,path);
+            List<String> t = ContactController.removeDuplicatesSearch(txtsearch.Text,path, _frmLogin.Iduser);
             for (int i = 0; i < t.Count; i++)
             {
                 Label lbl = new Label();
@@ -155,7 +161,7 @@ namespace Contacts_KT.Views
         public void update_lable()
         {
             flowLayoutPanel1.Controls.Clear();
-            List<String> t=  ContactController.removeDuplicates(path);
+            List<String> t=  ContactController.removeDuplicates(_frmLogin.Iduser);
             for (int i = 0; i < t.Count; i++)
             {
                 Label lbl = new Label();
@@ -167,13 +173,20 @@ namespace Contacts_KT.Views
         private void Label_Click(object sender, EventArgs e)
         {
             var labelName = ((Label)sender).Text;
-            var listContactNoSort = ContactController.GetContactbyWord(labelName, path);
+            var listContactNoSort = ContactController.GetContactbyWordDb(labelName, _frmLogin.Iduser);
             var newContactList = listContactNoSort.OrderBy(x => x.firstWordName).ToList();
             if (newContactList != null)
             {
                 dsContact.DataSource = newContactList;
             }
             tbContact.DataSource = dsContact;
+        }
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            FrmImport frmimp = new FrmImport(this);
+            idUser = _frmLogin.Iduser;
+            frmimp.Show();
         }
     }
 }

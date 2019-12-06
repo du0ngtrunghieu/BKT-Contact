@@ -32,17 +32,18 @@ namespace Contacts_KT.Views
             name = txtten.Text;
             phone = txtsdt.Text;
             email = txtemail.Text;
-           
+            
             if (name != null || phone != null || email != null)
             {
                 ContactModel contact = new ContactModel();
                 contact.FullName = name;
                 contact.Phone = int.Parse(phone);
                 contact.Email =email;
-                
-                ContactController.addContact(contact, frmContact1.path);
+                contact.IdUser = frmContact1.idUser;
+                //ContactController.addContact(contact, frmContact1.path);
+                ContactController.addContactDb(contact, frmContact1.idUser);
                 MessageBox.Show("Thêm Thành Công: " + contact.FullName);
-                frmContact1.Update_tableContact(frmContact1.path);
+                frmContact1.Update_tableContact();
             }
             this.Close();
            
