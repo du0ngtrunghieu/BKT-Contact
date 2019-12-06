@@ -7,4 +7,7 @@ Xây dựng ứng dụng với .NET FrameWork - Nhóm 2
 ```
 ## Ảnh DEMO :
 
-![demo](https://trunghieuit.herokuapp.com/media/uploads/ezgif-2-e12c95bf2f4f.gif)
+![demo](https://trunghieuit.herokuapp.com/media/uploads/ezgif-2-8aefb553b24b.gif)
+
+## Video DEMO :
+[Đường dẫn tới video trên gg driver](https://drive.google.com/file/d/1XWnWLKH3pJBdAtjfI05olbOolowU1eA-/)
